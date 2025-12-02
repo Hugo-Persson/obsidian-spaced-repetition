@@ -113,7 +113,9 @@ export class OsrCore {
 
         // Give the algorithm a chance to do something with the loaded note
         // e.g. OSR - calculate the average ease across all the questions within the note
-        // TODO:  should this move to this.loadNote
+        // Note: This is called here rather than in loadNote() because:
+        // 1. It needs access to schedule?.latestEase which is external to loadNote()
+        // 2. It's called for every file, even when note is null (no flashcard tags found)
         SrsAlgorithm.getInstance().noteOnLoadedNote(noteFile.path, note, schedule?.latestEase);
 
         const tags = noteFile.getAllTagsFromCache();
